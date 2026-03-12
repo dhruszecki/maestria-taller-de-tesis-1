@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronograma Taller de Tesis I — G2</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; padding: 24px; }
+  h1 { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .subtitle { color: #94a3b8; font-size: 0.85rem; margin-bottom: 28px; }
+
+  /* ENTREGA CARDS */
+  .entrega { border-radius: 12px; margin-bottom: 32px; overflow: hidden; border: 1px solid #1e293b; }
+  .entrega-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; }
+  .e1 .entrega-header { background: linear-gradient(90deg, #1e3a5f, #0f1117); border-bottom: 1px solid #1e3a5f; }
+  .e2 .entrega-header { background: linear-gradient(90deg, #1e4a3a, #0f1117); border-bottom: 1px solid #1e4a3a; }
+  .e3 .entrega-header { background: linear-gradient(90deg, #3a2e1a, #0f1117); border-bottom: 1px solid #3a2e1a; }
+  .e4 .entrega-header { background: linear-gradient(90deg, #3a1a2e, #0f1117); border-bottom: 1px solid #3a1a2e; }
+
+  .badge { font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .e1 .badge { background: #1d4ed8; color: #bfdbfe; }
+  .e2 .badge { background: #166534; color: #bbf7d0; }
+  .e3 .badge { background: #92400e; color: #fde68a; }
+  .e4 .badge { background: #7c1d6f; color: #f5d0fe; }
+
+  .entrega-title { font-size: 1rem; font-weight: 700; color: #f1f5f9; }
+  .entrega-meta { margin-left: auto; text-align: right; }
+  .clase-date { font-size: 0.75rem; color: #94a3b8; }
+  .deadline { font-size: 0.8rem; font-weight: 700; }
+  .e1 .deadline { color: #60a5fa; }
+  .e2 .deadline { color: #4ade80; }
+  .e3 .deadline { color: #fbbf24; }
+  .e4 .deadline { color: #e879f9; }
+
+  /* CONTENIDO */
+  .entrega-body { padding: 16px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .col-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 10px; }
+
+  .item { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+  .item-icon { font-size: 0.9rem; margin-top: 1px; flex-shrink: 0; }
+  .item-text { font-size: 0.82rem; color: #cbd5e1; line-height: 1.5; }
+  .item-text strong { color: #f1f5f9; }
+
+  /* SEMANAS */
+  .semanas { padding: 0 20px 16px; }
+  .semanas-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 10px; }
+  .timeline { display: flex; flex-direction: column; gap: 6px; }
+  .semana { display: flex; align-items: flex-start; gap: 12px; }
+  .semana-dot-wrap { display: flex; flex-direction: column; align-items: center; }
+  .semana-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .semana-line { width: 1px; flex: 1; min-height: 12px; background: #1e293b; margin-top: 2px; }
+  .e1 .semana-dot { background: #3b82f6; }
+  .e2 .semana-dot { background: #22c55e; }
+  .e3 .semana-dot { background: #f59e0b; }
+  .e4 .semana-dot { background: #d946ef; }
+  .semana-info { padding-bottom: 6px; }
+  .semana-fecha { font-size: 0.72rem; color: #64748b; font-weight: 600; }
+  .semana-tarea { font-size: 0.8rem; color: #cbd5e1; }
+  .semana-tarea em { font-style: normal; font-size: 0.72rem; color: #64748b; }
+
+  .divider { height: 1px; background: #1e293b; margin: 0 20px; }
+
+  @media (max-width: 600px) {
+    .entrega-body { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Taller de Tesis I — Grupo G2</h1>
+<p class="subtitle">Predicción de adopción de herramientas de IA en desarrolladores · Stack Overflow Survey 2023/2024</p>
+
+<!-- ENTREGA 1 -->
+<div class="entrega e1">
+  <div class="entrega-header">
+    <span class="badge">ENTREGA 1</span>
+    <span class="entrega-title">Dataset, Pregunta y Objetivo</span>
+    <div class="entrega-meta">
+      <div class="clase-date">Clase: 26/3 · Entrega:</div>
+      <div class="deadline">📅 5 de Abril</div>
+    </div>
+  </div>
+  <div class="entrega-body">
+    <div>
+      <div class="col-title">📄 Qué presentar</div>
+      <div class="item"><span class="item-icon">🎯</span><div class="item-text"><strong>Pregunta de investigación</strong> — redactada formalmente. ¿Qué características predicen la adopción sostenida de IA en devs?</div></div>
+      <div class="item"><span class="item-icon">📦</span><div class="item-text"><strong>Dataset elegido</strong> — SO Survey 2023 + 2024. Justificar por qué: tamaño, cobertura, variables de IA disponibles.</div></div>
+      <div class="item"><span class="item-icon">🔍</span><div class="item-text"><strong>Descripción del dataset</strong> — nro de filas/columnas, variables clave, fuente, licencia.</div></div>
+      <div class="item"><span class="item-icon">🏁</span><div class="item-text"><strong>Objetivo general y objetivos específicos</strong> — qué querés lograr y cómo lo vas a medir.</div></div>
+      <div class="item"><span class="item-icon">⚠️</span><div class="item-text"><strong>Limitaciones conocidas</strong> — sesgo de autoselección del survey, variables faltantes, etc.</div></div>
+    </div>
+    <div>
+      <div class="col-title">🗓️ Tu cronograma interno</div>
+      <div class="timeline">
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">26/3 — después de clase</div><div class="semana-tarea">Descargar SO Survey 2023 y 2024 <em>(CSV desde survey.stackoverflow.co)</em></div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">27–28/3</div><div class="semana-tarea">Explorar columnas, identificar variables de IA, redactar pregunta y objetivos</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">29–31/3</div><div class="semana-tarea">Redactar el documento de entrega, revisar, cerrar</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div></div>
+          <div class="semana-info"><div class="semana-fecha">✅ 5/4 — ENTREGA</div><div class="semana-tarea">Subir documento final</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENTREGA 2 -->
+<div class="entrega e2">
+  <div class="entrega-header">
+    <span class="badge">ENTREGA 2</span>
+    <span class="entrega-title">Metodología y AED</span>
+    <div class="entrega-meta">
+      <div class="clase-date">Clase: 30/4 · Entrega:</div>
+      <div class="deadline">📅 10 de Mayo</div>
+    </div>
+  </div>
+  <div class="entrega-body">
+    <div>
+      <div class="col-title">📄 Qué presentar</div>
+      <div class="item"><span class="item-icon">🧭</span><div class="item-text"><strong>Metodología</strong> — pipeline completo: preprocesamiento → EDA → clustering → clasificación. Justificar cada paso.</div></div>
+      <div class="item"><span class="item-icon">🧹</span><div class="item-text"><strong>Preprocesamiento</strong> — tratamiento de nulos, encoding, construcción de la variable target binaria.</div></div>
+      <div class="item"><span class="item-icon">📊</span><div class="item-text"><strong>AED completo</strong> — 6 a 8 visualizaciones con interpretación: distribución del target, adopción por rol/país/experiencia, correlaciones.</div></div>
+      <div class="item"><span class="item-icon">💡</span><div class="item-text"><strong>Hipótesis emergentes</strong> — al menos 2–3 hipótesis que surjan del EDA y guíen el modelado.</div></div>
+    </div>
+    <div>
+      <div class="col-title">🗓️ Tu cronograma interno</div>
+      <div class="timeline">
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">16/4 — clase explicación 2da entrega</div><div class="semana-tarea">Tomar nota de requisitos específicos del docente</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">17–20/4</div><div class="semana-tarea">Preprocesamiento: nulos, encoding, construcción del target</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">21–25/4</div><div class="semana-tarea">EDA: visualizaciones + interpretación + hipótesis</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">26–30/4</div><div class="semana-tarea">Redactar sección Metodología, armar Jupyter notebook prolijo</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div></div>
+          <div class="semana-info"><div class="semana-fecha">✅ 10/5 — ENTREGA</div><div class="semana-tarea">Notebook + informe</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENTREGA 3 -->
+<div class="entrega e3">
+  <div class="entrega-header">
+    <span class="badge">ENTREGA 3</span>
+    <span class="entrega-title">Introducción y Resultados</span>
+    <div class="entrega-meta">
+      <div class="clase-date">Clase: 28/5 · Entrega:</div>
+      <div class="deadline">📅 7 de Junio</div>
+    </div>
+  </div>
+  <div class="entrega-body">
+    <div>
+      <div class="col-title">📄 Qué presentar</div>
+      <div class="item"><span class="item-icon">📖</span><div class="item-text"><strong>Introducción formal</strong> — contexto, motivación, estado del arte (3–5 papers), gap que cubre tu trabajo.</div></div>
+      <div class="item"><span class="item-icon">🔬</span><div class="item-text"><strong>Resultados del clustering</strong> — clusters caracterizados, tasa de adopción por cluster.</div></div>
+      <div class="item"><span class="item-icon">🤖</span><div class="item-text"><strong>Resultados del modelado</strong> — comparación de modelos con ROC-AUC, F1, matriz de confusión.</div></div>
+      <div class="item"><span class="item-icon">🧩</span><div class="item-text"><strong>SHAP values</strong> — ranking de features más importantes con interpretación en lenguaje de negocio.</div></div>
+    </div>
+    <div>
+      <div class="col-title">🗓️ Tu cronograma interno</div>
+      <div class="timeline">
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">14/5 — clase explicación 3ra entrega</div><div class="semana-tarea">Tomar nota de requisitos del docente</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">15–18/5</div><div class="semana-tarea">Clustering: K-Means, silhouette, caracterización de clusters</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">19–23/5</div><div class="semana-tarea">Modelado: Logistic Regression, Random Forest, XGBoost + CV + métricas</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">24–27/5</div><div class="semana-tarea">SHAP values + redactar Introducción y sección Resultados</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div></div>
+          <div class="semana-info"><div class="semana-fecha">✅ 7/6 — ENTREGA</div><div class="semana-tarea">Documento completo hasta resultados</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ENTREGA 4 -->
+<div class="entrega e4">
+  <div class="entrega-header">
+    <span class="badge">ENTREGA 4</span>
+    <span class="entrega-title">Discusión y Conclusiones</span>
+    <div class="entrega-meta">
+      <div class="clase-date">Clase: 25/6 · Entrega:</div>
+      <div class="deadline">📅 5 de Julio</div>
+    </div>
+  </div>
+  <div class="entrega-body">
+    <div>
+      <div class="col-title">📄 Qué presentar</div>
+      <div class="item"><span class="item-icon">💬</span><div class="item-text"><strong>Discusión</strong> — ¿los resultados confirman las hipótesis del EDA? ¿Qué sorprende? ¿Qué limitaciones encontraste?</div></div>
+      <div class="item"><span class="item-icon">✅</span><div class="item-text"><strong>Conclusiones</strong> — respuesta directa a la pregunta de investigación, qué aprendiste.</div></div>
+      <div class="item"><span class="item-icon">🔮</span><div class="item-text"><strong>Trabajo futuro</strong> — qué harías con más tiempo: datos longitudinales, más variables, otros modelos.</div></div>
+      <div class="item"><span class="item-icon">📎</span><div class="item-text"><strong>Trabajo completo integrado</strong> — todas las secciones anteriores revisadas y cohesionadas en un solo documento.</div></div>
+    </div>
+    <div>
+      <div class="col-title">🗓️ Tu cronograma interno</div>
+      <div class="timeline">
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">11/6 — clase explicación 4ta entrega</div><div class="semana-tarea">Tomar nota de requisitos finales</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">12–15/6</div><div class="semana-tarea">Redactar Discusión en base a los resultados</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">16–20/6</div><div class="semana-tarea">Redactar Conclusiones y Trabajo Futuro</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div><div class="semana-line"></div></div>
+          <div class="semana-info"><div class="semana-fecha">21–25/6</div><div class="semana-tarea">Integrar todo el documento, revisar coherencia, corregir</div></div>
+        </div>
+        <div class="semana">
+          <div class="semana-dot-wrap"><div class="semana-dot"></div></div>
+          <div class="semana-info"><div class="semana-fecha">✅ 5/7 — ENTREGA FINAL</div><div class="semana-tarea">Trabajo completo integrado</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
