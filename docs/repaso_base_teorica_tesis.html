@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repaso Base Teórica — Taller de Tesis I</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --bg2: #161b27; --bg3: #1e2535;
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0; --muted: #7a8299; --hint: #4a5168;
+    --accent: #4f8ef7; --accent2: #7c6fe0;
+    --green: #3ecf8e; --amber: #f4a340; --red: #f26d6d; --teal: #38bdf8;
+    --font: 'IBM Plex Sans', sans-serif; --mono: 'IBM Plex Mono', monospace;
+    --radius: 10px; --radius-lg: 14px;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem 1.5rem 4rem; font-size: 14px; line-height: 1.6; }
+  .header { max-width: 900px; margin: 0 auto 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .header-eyebrow { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .header-title { font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 4px; letter-spacing: -0.02em; }
+  .header-sub { font-size: 13px; color: var(--muted); }
+  .main { max-width: 900px; margin: 0 auto; }
+  .nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2rem; position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .nav-btn { font-family: var(--mono); font-size: 11px; padding: 5px 11px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.03em; }
+  .nav-btn:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+  .nav-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .section { display: none; animation: fadein 0.2s ease; }
+  .section.active { display: block; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .section-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
+  .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.8rem; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; margin-bottom: 1rem; transition: border-color 0.15s; }
+  .card:hover { border-color: var(--border2); }
+  .card-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+  .card-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .card-body strong { color: var(--text); font-weight: 500; }
+  .card-body code { font-family: var(--mono); font-size: 11.5px; background: var(--bg3); padding: 1px 5px; border-radius: 4px; color: #a8b4d0; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1rem 0; }
+  @media (max-width: 600px) { .row2, .row3, .grid3 { grid-template-columns: 1fr; } }
+  .tag { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 5px; margin-right: 4px; margin-bottom: 4px; letter-spacing: 0.03em; }
+  .tag-blue   { background: rgba(79,142,247,0.15);  color: #7fb3fa; border: 1px solid rgba(79,142,247,0.2); }
+  .tag-green  { background: rgba(62,207,142,0.12);  color: #5dddaa; border: 1px solid rgba(62,207,142,0.2); }
+  .tag-amber  { background: rgba(244,163,64,0.12);   color: #f4b96a; border: 1px solid rgba(244,163,64,0.2); }
+  .tag-red    { background: rgba(242,109,109,0.12);  color: #f48f8f; border: 1px solid rgba(242,109,109,0.2); }
+  .tag-purple { background: rgba(124,111,224,0.15);  color: #a899f0; border: 1px solid rgba(124,111,224,0.2); }
+  .tag-teal   { background: rgba(56,189,248,0.12);   color: #7dd6f7; border: 1px solid rgba(56,189,248,0.2); }
+  .code { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; font-family: var(--mono); font-size: 11.5px; color: #a8b4d0; margin-top: 10px; line-height: 1.7; overflow-x: auto; white-space: pre; }
+  .code .kw { color: var(--teal); } .code .fn { color: var(--accent); } .code .str { color: var(--green); } .code .cm { color: var(--hint); font-style: italic; } .code .num { color: var(--amber); }
+  .analogy { border-left: 2px solid var(--accent2); padding: 8px 14px; margin: 10px 0; font-size: 12.5px; color: var(--muted); font-style: italic; line-height: 1.65; background: rgba(124,111,224,0.05); border-radius: 0 var(--radius) var(--radius) 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-family: var(--mono); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-body { flex: 1; }
+  .step-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; color: var(--text); }
+  .step-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .metric { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
+  .metric-val { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--accent); display: block; margin-bottom: 4px; }
+  .metric-label { font-size: 11px; color: var(--muted); }
+  .vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: start; margin: 1rem 0; }
+  .vs-mid { display: flex; align-items: center; justify-content: center; color: var(--hint); font-size: 16px; padding-top: 14px; font-family: var(--mono); }
+  .matrix { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  .matrix td { padding: 8px 10px; border: 1px solid var(--border); }
+  .matrix .cell-good { background: rgba(62,207,142,0.1); color: var(--green); }
+  .matrix .cell-bad  { background: rgba(242,109,109,0.1); color: var(--red); }
+  .matrix .cell-header { color: var(--muted); font-weight: 500; }
+  .card-accent { border-left: 3px solid var(--accent2); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+  .card-ok   { background: rgba(62,207,142,0.05); border-color: rgba(62,207,142,0.2); }
+  .card-warn { background: rgba(244,163,64,0.05);  border-color: rgba(244,163,64,0.2); }
+  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+  .ref-row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .ref-row:last-child { border-bottom: none; }
+  .ref-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .ref-body { flex: 1; color: var(--muted); line-height: 1.55; }
+  .ref-body strong { color: var(--text); }
+  .ref-tag { font-family: var(--mono); font-size: 10px; color: var(--hint); display: block; margin-top: 3px; }
+  .novelty-grid { display: grid; grid-template-columns: 150px 1fr 1fr 90px; gap: 8px; }
+  .novelty-grid.header { color: var(--hint); font-size: 11px; font-family: var(--mono); padding-bottom: 6px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+  .novelty-row { display: contents; font-size: 12px; }
+  .novelty-row > div { padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--muted); line-height: 1.5; }
+  .novelty-row > div:first-child { color: var(--text); font-weight: 500; }
+  .badge-orig { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(62,207,142,0.15); color: var(--green); border: 1px solid rgba(62,207,142,0.3); }
+  .badge-mid  { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(244,163,64,0.12); color: var(--amber); border: 1px solid rgba(244,163,64,0.25); }
+  @media (max-width: 600px) { .novelty-grid { grid-template-columns: 1fr; } .vs { grid-template-columns: 1fr; } .vs-mid { display: none; } }
+  .footer { max-width: 900px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 11px; color: var(--hint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Maestría en Data Mining · FCEyN UBA · Grupo G2</div>
+  <div class="header-title">Repaso base teórica — Taller de Tesis I</div>
+  <div class="header-sub">Referencia completa · v2 — incluye preprocesamiento teórico, modelos en detalle y estado del arte</div>
+</div>
+
+<div class="main">
+<div class="nav">
+  <button class="nav-btn active" onclick="show('pipeline',this)">01 · Pipeline</button>
+  <button class="nav-btn" onclick="show('prep',this)">02 · Preprocesamiento</button>
+  <button class="nav-btn" onclick="show('eda',this)">03 · EDA</button>
+  <button class="nav-btn" onclick="show('clustering',this)">04 · Clustering</button>
+  <button class="nav-btn" onclick="show('classif',this)">05 · Clasificación</button>
+  <button class="nav-btn" onclick="show('modelos',this)">06 · Modelos en detalle</button>
+  <button class="nav-btn" onclick="show('metricas',this)">07 · Métricas</button>
+  <button class="nav-btn" onclick="show('rocf1',this)">08 · ROC-AUC y F1</button>
+  <button class="nav-btn" onclick="show('shap',this)">09 · SHAP</button>
+  <button class="nav-btn" onclick="show('edaclust',this)">10 · ¿Por qué EDA+Clustering?</button>
+  <button class="nav-btn" onclick="show('supvsunsup',this)">11 · Sup. vs No-sup.</button>
+  <button class="nav-btn" onclick="show('xgboost',this)">12 · XGBoost vs RF</button>
+  <button class="nav-btn" onclick="show('estadoarte',this)">13 · Estado del arte</button>
+  <button class="nav-btn" onclick="show('tam',this)">14 · TAM y variable target</button>
+  <button class="nav-btn" onclick="show('presentacion',this)">15 · 26/3</button>
+</div>
+
+<!-- 01 PIPELINE -->
+<div id="s-pipeline" class="section active">
+  <div class="section-title">El pipeline completo de la tesis</div>
+  <div class="section-sub">Cómo se conectan todos los temas en orden cronológico.</div>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Preprocesamiento <span class="tag tag-blue">Entrega 2</span></div><div class="step-desc">Limpiar el dataset, tratar nulos, codificar variables categóricas, unificar los 3 años, construir la variable target binaria.</div></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">EDA — Análisis Exploratorio <span class="tag tag-blue">Entrega 2</span></div><div class="step-desc">Visualizar distribuciones, explorar correlaciones, comparar tasas de adopción por rol/país/experiencia. Confirmar o refutar H1–H3.</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Clustering K-Means <span class="tag tag-purple">No supervisado</span></div><div class="step-desc">Segmentar perfiles de desarrolladores sin usar el target. El cluster resultante se agrega como feature al modelo supervisado.</div></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Clasificación supervisada <span class="tag tag-green">Supervisado</span></div><div class="step-desc">Entrenar y comparar Regresión Logística, Random Forest y XGBoost con validación cruzada estratificada (5-fold).</div></div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Interpretabilidad SHAP <span class="tag tag-amber">Entrega 3</span></div><div class="step-desc">Explicar qué variables fueron más importantes. Traducir el modelo a conclusiones de negocio accionables.</div></div></div>
+  <div class="card card-ok" style="margin-top:1.5rem;">
+    <div class="card-title">Variable target</div>
+    <div class="card-body"><strong>target = 1</strong> si AISelect="Yes" <strong>y</strong> AISent ∈ {Favorable, Very favorable} (TAM, Davis 1989)<br>Dataset 2023–2025: ~203.000 respuestas · 39.8% adoptantes / 60.2% no adoptantes · desbalance moderado, manejable
+    <div class="code">target = (df[<span class="str">"AISelect"</span>] == <span class="str">"Yes"</span>) & (df[<span class="str">"AISent"</span>].<span class="fn">isin</span>([<span class="str">"Favorable"</span>, <span class="str">"Very favorable"</span>]))
+df[<span class="str">"target"</span>] = target.<span class="fn">astype</span>(<span class="fn">int</span>)
+<span class="cm"># Tasa por año: 2023→37% · 2024→44% · 2025→39%</span></div></div>
+  </div>
+</div>
+
+<!-- 02 PREPROCESAMIENTO -->
+<div id="s-prep" class="section">
+  <div class="section-title">Preprocesamiento</div>
+  <div class="section-sub">Transformar el CSV crudo en un dataset listo para modelar. Referencia teórica de cada técnica.</div>
+
+  <div class="card">
+    <div class="card-title">Tratamiento de nulos — teoría y estrategia</div>
+    <div class="card-body">
+      Los valores nulos aparecen por no-respuesta, preguntas opcionales o errores de carga. Tres estrategias principales:<br><br>
+      <strong>Eliminación</strong>: descartar filas o columnas con demasiados nulos. Simple pero pierde información. Umbral típico: excluir columnas con &gt;40% NaN.<br><br>
+      <strong>Imputación simple</strong>: reemplazar nulos por un estadístico de la columna.<br>
+      <span class="tag tag-blue">Moda</span> para variables categóricas (DevType, Country) — el valor más frecuente.<br>
+      <span class="tag tag-blue">Mediana</span> para numéricas (YearsCode) — más robusta que la media ante outliers.<br>
+      <span class="tag tag-blue">Media</span> para numéricas con distribución normal y sin outliers extremos.<br><br>
+      <strong>Imputación avanzada</strong>: usar otros modelos (KNN Imputer, IterativeImputer) para predecir el valor faltante a partir de otras columnas. Más preciso pero costoso computacionalmente.<br><br>
+      <span class="tag tag-red">Excluir CompTotal</span> — alto % de NaN + fuerte sesgo de autoselección (responden más quienes tienen salarios altos).
+      <div class="code"><span class="kw">from</span> sklearn.impute <span class="kw">import</span> SimpleImputer
+imp_cat = <span class="fn">SimpleImputer</span>(strategy=<span class="str">"most_frequent"</span>)
+df[cat_cols] = imp_cat.<span class="fn">fit_transform</span>(df[cat_cols])
+imp_num = <span class="fn">SimpleImputer</span>(strategy=<span class="str">"median"</span>)
+df[num_cols] = imp_num.<span class="fn">fit_transform</span>(df[num_cols])</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Encoding de variables categóricas — teoría</div>
+    <div class="card-body">
+      Los modelos de ML trabajan con números. La elección del encoding depende de si la variable tiene orden natural o no.<br><br>
+      <strong>Label Encoding / Mapeo ordinal</strong> — para variables con orden natural claro. Se asigna un número entero que respeta la escala.<br>
+      Usar con: <code>EdLevel</code>, <code>OrgSize</code>, <code>YearsCode</code>.<br>
+      <span class="tag tag-amber">Cuidado</span> nunca usar en variables nominales — el modelo interpretaría que "Python" (2) es el doble de "JavaScript" (1).<br><br>
+      <strong>One-Hot Encoding (OHE)</strong> — para variables nominales sin orden. Crea una columna binaria por cada categoría.<br>
+      Usar con: <code>DevType</code>, <code>Employment</code>.<br>
+      <span class="tag tag-amber">Cuidado</span> con alta cardinalidad — <code>Country</code> tiene 180 valores → agrupar en 6 regiones antes de OHE.<br><br>
+      <strong>Binarización de multi-valor</strong> — columnas con múltiples valores separados por ";" (ej: lenguajes usados). Se crea una columna binaria por tecnología.
+      <div class="code"><span class="cm"># OHE</span>
+df = pd.<span class="fn">get_dummies</span>(df, columns=[<span class="str">"DevType"</span>, <span class="str">"Employment"</span>])
+<span class="cm"># Mapeo ordinal</span>
+org_map = {<span class="str">"Just me"</span>: <span class="num">1</span>, <span class="str">"2-9"</span>: <span class="num">2</span>, <span class="str">"10-99"</span>: <span class="num">3</span>, <span class="str">"10000+"</span>: <span class="num">7</span>}
+df[<span class="str">"OrgSize_enc"</span>] = df[<span class="str">"OrgSize"</span>].<span class="fn">map</span>(org_map)
+<span class="cm"># Binarización multi-valor</span>
+df[<span class="str">"usa_python"</span>] = df[<span class="str">"LanguageHaveWorkedWith"</span>].<span class="fn">str</span>.<span class="fn">contains</span>(<span class="str">"Python"</span>).<span class="fn">astype</span>(<span class="fn">int</span>)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Escalado de variables numéricas</div>
+    <div class="card-body">
+      Necesario para K-Means (sensible a magnitud) y Regresión Logística. <strong>No necesario</strong> para Random Forest y XGBoost (basados en árboles, no usan distancias).<br><br>
+      <span class="tag tag-blue">StandardScaler</span> transforma a media=0, std=1. Ideal para distribuciones aproximadamente normales.<br>
+      <span class="tag tag-blue">MinMaxScaler</span> escala al rango [0,1]. Útil cuando hay outliers suaves.<br>
+      <span class="tag tag-amber">Regla crítica</span> fit solo sobre el training set, transform sobre train y test. Nunca al revés — genera data leakage.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Alinear los 3 años del survey</div>
+    <div class="card-body">Algunas columnas cambian de nombre entre ediciones. Crear un diccionario de mapeo antes de concatenar. Agregar <code>survey_year</code> como feature temporal para capturar la evolución del mercado.
+    <div class="code">df_2023[<span class="str">"survey_year"</span>] = <span class="num">2023</span>
+df_all = pd.<span class="fn">concat</span>([df_2023, df_2024, df_2025], ignore_index=<span class="kw">True</span>)</div></div>
+  </div>
+</div>
+
+<!-- 03 EDA -->
+<div id="s-eda" class="section">
+  <div class="section-title">EDA — Análisis Exploratorio de Datos</div>
+  <div class="section-sub">Entender el dataset antes de modelar. No es decorativo — es donde se descubren las hipótesis reales.</div>
+  <div class="card">
+    <div class="card-title">Qué explorar en este trabajo</div>
+    <div class="card-body">
+      <div class="step"><div class="step-num" style="background:var(--teal)">1</div><div class="step-body"><div class="step-title">Distribución del target por año</div><div class="step-desc">37→44→39%. Explicar la caída 2025: paradoja "más uso (80%) pero menos confianza (29%)".</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">2</div><div class="step-body"><div class="step-title">Adopción por DevType</div><div class="step-desc">¿ML Engineers adoptan más que backend devs? Valida H1.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">3</div><div class="step-body"><div class="step-title">Adopción por OrgSize</div><div class="step-desc">¿Empresas 500+ muestran mayor tasa? Valida H2.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">4</div><div class="step-body"><div class="step-title">Correlaciones entre features</div><div class="step-desc">Heatmap. Detectar multicolinealidad antes de modelar para evitar features redundantes.</div></div></div>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="card"><div class="card-title">Visualizaciones clave</div><div class="card-body"><span class="tag tag-blue">Bar chart</span> adopción por DevType<br><span class="tag tag-blue">Línea temporal</span> evolución 2023–2025<br><span class="tag tag-blue">Heatmap</span> correlaciones<br><span class="tag tag-blue">Boxplot</span> YearsCode por target<br><span class="tag tag-blue">Mapa</span> adopción por región</div></div>
+    <div class="card"><div class="card-title">Código mínimo</div><div class="card-body"><div class="code"><span class="kw">import</span> seaborn <span class="kw">as</span> sns
+df.<span class="fn">groupby</span>(<span class="str">"DevType"</span>)[<span class="str">"target"</span>].<span class="fn">mean</span>() \
+  .<span class="fn">sort_values</span>().<span class="fn">plot</span>(kind=<span class="str">"barh"</span>)
+df.<span class="fn">groupby</span>(<span class="str">"survey_year"</span>)[<span class="str">"target"</span>].<span class="fn">mean</span>()</div></div></div>
+  </div>
+</div>
+
+<!-- 04 CLUSTERING -->
+<div id="s-clustering" class="section">
+  <div class="section-title">Clustering — K-Means</div>
+  <div class="section-sub">Aprendizaje no supervisado: encontrar grupos naturales sin usar la variable target.</div>
+  <div class="analogy">Analogía: imaginá 200.000 fichas de desarrolladores sin etiqueta. El clustering las agrupa en pilas por similitud — sin saber quién adoptó IA. Después describís cada pila: "esta pila son devs senior de empresas grandes, 70% de adopción".</div>
+  <div class="row2">
+    <div class="card"><div class="card-title">Cómo funciona K-Means</div><div class="card-body">Asigna cada punto al centroide más cercano y reajusta iterativamente hasta converger. Requiere escalar las variables antes (<code>StandardScaler</code>) porque es sensible a la magnitud.</div></div>
+    <div class="card"><div class="card-title">Elegir k óptimo</div><div class="card-body"><span class="tag tag-amber">Método del codo</span> graficar inercia vs. k — k óptimo donde la curva "dobla".<br><br><span class="tag tag-amber">Silhouette Score</span> mide separación entre clusters. Rango −1 a 1. Aceptable: &gt; 0.3</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Código y uso en el pipeline</div>
+    <div class="card-body"><div class="code"><span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> silhouette_score
+X_scaled = <span class="fn">StandardScaler</span>().<span class="fn">fit_transform</span>(X_profile)
+kmeans = <span class="fn">KMeans</span>(n_clusters=<span class="num">4</span>, random_state=<span class="num">42</span>)
+df[<span class="str">"cluster"</span>] = kmeans.<span class="fn">fit_predict</span>(X_scaled)
+<span class="fn">print</span>(<span class="fn">silhouette_score</span>(X_scaled, df[<span class="str">"cluster"</span>]))
+df.<span class="fn">groupby</span>(<span class="str">"cluster"</span>)[<span class="str">"target"</span>].<span class="fn">mean</span>()  <span class="cm"># adopción por cluster</span></div>
+    Describir cada cluster con nombre descriptivo y agregar el número de cluster como feature al modelo supervisado.</div>
+  </div>
+</div>
+
+<!-- 05 CLASIFICACIÓN -->
+<div id="s-classif" class="section">
+  <div class="section-title">Clasificación supervisada</div>
+  <div class="section-sub">Aprendizaje supervisado: usar el target conocido para entrenar modelos que predigan nuevos casos.</div>
+  <div class="analogy">Supervisado = aprender con libro de respuestas. El modelo ve 203.000 filas con target conocido, aprende el patrón y después predice en casos nuevos donde el target no está disponible.</div>
+  <div class="card">
+    <div class="card-title">Validación cruzada estratificada — por qué importa</div>
+    <div class="card-body">En lugar de evaluar una sola vez, se evalúa 5 veces con distintos subconjuntos. "Estratificada" = cada fold mantiene la proporción 60/40 original. El resultado es promedio ± desvío estándar.
+    <div class="code"><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> StratifiedKFold, cross_val_score
+cv = <span class="fn">StratifiedKFold</span>(n_splits=<span class="num">5</span>, shuffle=<span class="kw">True</span>, random_state=<span class="num">42</span>)
+scores = <span class="fn">cross_val_score</span>(model, X, y, cv=cv, scoring=<span class="str">"roc_auc"</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"ROC-AUC: {scores.mean():.3f} ± {scores.std():.3f}"</span>)</div></div>
+  </div>
+</div>
+
+<!-- 06 MODELOS EN DETALLE -->
+<div id="s-modelos" class="section">
+  <div class="section-title">Los 3 modelos en detalle + otros algoritmos</div>
+  <div class="section-sub">Cómo funciona cada uno internamente, ventajas, limitaciones y parámetros clave.</div>
+
+  <div class="card">
+    <div class="card-title">Regresión Logística — el baseline interpretable</div>
+    <div class="card-body">
+      A pesar del nombre, es un algoritmo de <strong>clasificación</strong>. Aprende un peso (coeficiente) por feature, los combina linealmente y pasa el resultado por una función sigmoide que lo convierte en probabilidad entre 0 y 1.<br><br>
+      <div class="analogy">Analogía: es una balanza. Cada feature tiene un peso positivo o negativo. "Ser ML Engineer" empuja hacia adoptante, "menos de 2 años de experiencia" empuja hacia no adoptante. La sigmoide convierte ese balance en una probabilidad.</div>
+      <span class="tag tag-green">Ventaja</span> coeficientes directamente interpretables: "ser ML Engineer multiplica las chances por 1.8x"<br>
+      <span class="tag tag-green">Ventaja</span> muy rápida, funciona bien con datasets grandes<br>
+      <span class="tag tag-amber">Limitación</span> asume relaciones lineales — no captura "ML Engineer en empresa grande" como interacción especial<br><br>
+      <strong>Parámetros clave:</strong> <code>C</code> (inverso de regularización — valores pequeños = más regularización, reduce overfitting), <code>class_weight='balanced'</code>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Random Forest — el modelo principal</div>
+    <div class="card-body">
+      Ensemble de muchos árboles de decisión entrenados en <strong>paralelo</strong> sobre subsets aleatorios del dataset (técnica: <strong>bagging</strong>). La predicción final es el voto mayoritario. La aleatoriedad hace que los árboles sean diversos y se corrijan entre sí.<br><br>
+      <div class="analogy">En lugar de preguntarle a un experto, le preguntás a 500 expertos distintos entrenados con información parcialmente diferente. El resultado colectivo es más robusto que cualquiera individualmente.</div>
+      <span class="tag tag-green">Ventaja</span> captura relaciones no lineales e interacciones entre variables<br>
+      <span class="tag tag-green">Ventaja</span> robusto a outliers y ruido · resultados estables sin mucho tuning<br>
+      <span class="tag tag-green">Ventaja</span> feature importance nativa (aunque SHAP es más preciso)<br>
+      <span class="tag tag-amber">Limitación</span> más lento que regresión logística<br><br>
+      <strong>Parámetros clave:</strong> <code>n_estimators</code> (cantidad de árboles, 100–500), <code>max_depth</code> (profundidad), <code>class_weight='balanced'</code>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">XGBoost — estado del arte en datos tabulares</div>
+    <div class="card-body">
+      Gradient Boosting: entrena árboles <strong>secuencialmente</strong>. Cada árbol nuevo se especializa en corregir los errores del anterior. El resultado es un ensemble donde cada componente tiene un rol específico.<br><br>
+      <div class="analogy">No preguntás a 500 expertos en paralelo. Los convocás en secuencia: el primero da un diagnóstico, el segundo se especializa en los casos que el primero erró, el tercero en lo que el segundo falló.</div>
+      <span class="tag tag-green">Ventaja</span> suele dar el mejor ROC-AUC en datos tabulares estructurados<br>
+      <span class="tag tag-green">Ventaja</span> SHAP funciona igual que con RF<br>
+      <span class="tag tag-amber">Limitación</span> requiere tuning para rendir bien — mal configurado puede ser peor que RF<br>
+      <span class="tag tag-amber">Limitación</span> más difícil de explicar conceptualmente<br><br>
+      <strong>Parámetros clave:</strong> <code>learning_rate</code> (valores pequeños = más árboles pero mejor generalización), <code>n_estimators</code>, <code>max_depth</code>, <code>scale_pos_weight</code> (para desbalance).
+      <div class="code"><span class="kw">from</span> xgboost <span class="kw">import</span> XGBClassifier
+model = <span class="fn">XGBClassifier</span>(n_estimators=<span class="num">300</span>, learning_rate=<span class="num">0.05</span>,
+  max_depth=<span class="num">6</span>, subsample=<span class="num">0.8</span>, scale_pos_weight=<span class="num">1.5</span>, random_state=<span class="num">42</span>)</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div style="margin-bottom:12px; color: var(--muted); font-size:11px; font-family: var(--mono);">OTROS ALGORITMOS — contexto comparativo</div>
+
+  <div class="row3">
+    <div class="card">
+      <div class="card-title">Decision Tree</div>
+      <div class="card-body">Un solo árbol de decisión. Muy interpretable — podés dibujarlo y mostrarlo. Tiende a overfittear. Útil como baseline visual y para explicar el concepto de árbol antes de Random Forest.<br><br><span class="tag tag-teal">Rol</span> baseline visual / didáctico</div>
+    </div>
+    <div class="card">
+      <div class="card-title">SVM</div>
+      <div class="card-body">Encuentra el hiperplano que maximiza el margen entre clases. Muy bueno en alta dimensionalidad. Lento en 200k filas y no integra bien con SHAP.<br><br><span class="tag tag-amber">Rol</span> mencionar que fue descartado por escala</div>
+    </div>
+    <div class="card">
+      <div class="card-title">LightGBM</div>
+      <div class="card-body">Variante de XGBoost optimizada para datasets grandes. Mucho más rápida. Si XGBoost tarda demasiado, LightGBM es el reemplazo directo. SHAP funciona igual.<br><br><span class="tag tag-teal">Rol</span> alternativa eficiente si XGBoost es lento</div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 MÉTRICAS -->
+<div id="s-metricas" class="section">
+  <div class="section-title">Métricas de evaluación</div>
+  <div class="section-sub">Cómo medir si el modelo es bueno — y cuál elegir para este caso concreto.</div>
+  <div class="card">
+    <div class="card-title">La matriz de confusión — todo parte de acá</div>
+    <div class="card-body">
+      <table class="matrix">
+        <tr><td></td><td class="cell-header" style="text-align:center">Predijo 0</td><td class="cell-header" style="text-align:center">Predijo 1</td></tr>
+        <tr><td class="cell-header">Real 0</td><td class="cell-good" style="text-align:center">TN — Verdadero Negativo</td><td class="cell-bad" style="text-align:center">FP — Falso Positivo</td></tr>
+        <tr><td class="cell-header">Real 1</td><td class="cell-bad" style="text-align:center">FN — Falso Negativo</td><td class="cell-good" style="text-align:center">TP — Verdadero Positivo</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="metric"><span class="metric-val">≥ 0.75</span><div class="metric-label">ROC-AUC objetivo</div></div>
+    <div class="metric"><span class="metric-val">F1</span><div class="metric-label">Para clases desbalanceadas</div></div>
+    <div class="metric"><span class="metric-val">5-fold</span><div class="metric-label">Validación cruzada</div></div>
+  </div>
+  <div class="row2">
+    <div class="card"><div class="card-title">ROC-AUC — métrica principal</div><div class="card-body">Área bajo la curva ROC. Independiente del umbral de clasificación. 0.5=azar · 0.75=bueno · 0.85+=muy bueno.<br><br><span class="tag tag-green">Ventaja</span> no depende del umbral<br><span class="tag tag-green">Ventaja</span> funciona bien con 60/40</div></div>
+    <div class="card"><div class="card-title">F1-Score — complementario</div><div class="card-body">Promedio armónico de Precisión y Recall. Evalúa a umbral fijo (0.5). Útil cuando FN tiene costo diferente a FP.
+    <div class="code">precision = TP / (TP + FP)
+recall    = TP / (TP + FN)
+F1 = <span class="num">2</span> * precision * recall / (precision + recall)</div></div></div>
+  </div>
+</div>
+
+<!-- 08 ROC-AUC Y F1 EN PROFUNDIDAD -->
+<div id="s-rocf1" class="section">
+  <div class="section-title">ROC-AUC y F1-Score en profundidad</div>
+  <div class="section-sub">Qué miden realmente, por qué son complementarias y cómo leerlas en este trabajo.</div>
+  <div class="card">
+    <div class="card-title">El punto de partida: todo clasificador devuelve una probabilidad</div>
+    <div class="card-body">Ningún modelo devuelve directamente "adoptante / no adoptante". Devuelve una probabilidad 0–1. Vos elegís un umbral (típicamente 0.5). Si lo bajás, atrapás más adoptantes reales pero también más falsos positivos. Cada umbral da una matriz de confusión diferente.
+    <div class="analogy">ROC-AUC resuelve eso evaluando el modelo a todos los umbrales posibles a la vez. F1 evalúa a un umbral fijo (0.5). Por eso son complementarias, no redundantes.</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Tabla de interpretación ROC-AUC</div>
+    <div class="card-body">
+      <table class="matrix" style="margin-top:0">
+        <tr><td class="cell-header">AUC = 1.0</td><td style="padding:6px 10px;color:var(--green)">Modelo perfecto — separa todas las clases sin error</td></tr>
+        <tr><td class="cell-header">AUC ≥ 0.85</td><td style="padding:6px 10px;color:var(--green)">Muy bueno — publicable en papers académicos</td></tr>
+        <tr><td class="cell-header">AUC = 0.75</td><td style="padding:6px 10px;color:var(--amber)">Bueno — objetivo mínimo de este trabajo</td></tr>
+        <tr><td class="cell-header">AUC = 0.60</td><td style="padding:6px 10px;color:var(--amber)">Aceptable — hay margen de mejora</td></tr>
+        <tr><td class="cell-header">AUC = 0.50</td><td style="padding:6px 10px;color:var(--red)">Azar puro — el modelo no aprendió nada útil</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">F1 — la tensión precisión-recall</div>
+    <div class="card-body"><strong>Precisión</strong>: de los que el modelo dijo "adoptante", ¿cuántos realmente lo eran? Mide confiabilidad de las predicciones positivas.<br><strong>Recall</strong>: de los que realmente eran adoptantes, ¿cuántos encontró? Mide completitud.<br><br>Subir el recall baja la precisión — empezás a incluir falsos positivos. F1 penaliza fuerte cuando uno de los dos es muy bajo.</div>
+  </div>
+  <div class="card card-accent">
+    <div class="card-title">Por qué F1 importa en este trabajo concreto</div>
+    <div class="card-body">Si una empresa usa el modelo para identificar devs a capacitar, un <strong>falso negativo</strong> (dev que iba a adoptar pero el modelo lo clasificó como no adoptante) tiene costo real: esa persona no recibe la capacitación que necesita. ROC-AUC no captura eso directamente.<br><br><span class="tag tag-blue">ROC-AUC</span> ¿el modelo puede distinguir las clases en general?<br><span class="tag tag-blue">F1</span> ¿cuántos errores comete en uso real a umbral 0.5?</div>
+  </div>
+</div>
+
+<!-- 09 SHAP -->
+<div id="s-shap" class="section">
+  <div class="section-title">SHAP values — interpretabilidad</div>
+  <div class="section-sub">Por qué el modelo predice lo que predice. La sección que convierte el trabajo técnico en conclusiones útiles.</div>
+  <div class="analogy">Origen: teoría de juegos cooperativos (Shapley, 1953). En un juego con varios jugadores, ¿cuánto contribuyó cada uno a la ganancia total? SHAP adapta esa idea: los "jugadores" son las features, la "ganancia" es la predicción.</div>
+  <div class="card">
+    <div class="card-title">Qué produce SHAP en la práctica</div>
+    <div class="card-body">
+      <div class="step"><div class="step-num" style="background:var(--accent2)">1</div><div class="step-body"><div class="step-title">Feature importance global</div><div class="step-desc">Ranking promedio: ¿DevType importa más que YearsCode a nivel de todo el dataset?</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent2)">2</div><div class="step-body"><div class="step-title">Beeswarm plot</div><div class="step-desc">Distribución completa de cómo cada feature afecta la predicción — no solo el promedio.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent2)">3</div><div class="step-body"><div class="step-title">Waterfall individual</div><div class="step-desc">"Probabilidad 72% porque es ML Engineer (+18%), usa Python (+12%), empresa grande (+9%), YearsCode=8 solo suma +3%".</div></div></div>
+    </div>
+  </div>
+  <div class="card"><div class="card-title">Código — igual para RF y XGBoost</div><div class="card-body"><div class="code"><span class="kw">import</span> shap
+explainer = shap.<span class="fn">TreeExplainer</span>(best_model)  <span class="cm"># RF, XGBoost o LightGBM</span>
+shap_values = explainer.<span class="fn">shap_values</span>(X_test)
+shap.<span class="fn">summary_plot</span>(shap_values, X_test)
+shap.<span class="fn">waterfall_plot</span>(explainer(X_test)[<span class="num">0</span>])</div></div></div>
+  <div class="card card-accent">
+    <div class="card-title">Por qué SHAP y no feature_importance nativa de RF</div>
+    <div class="card-body">Feature importance de RF cuenta cuántas veces una variable fue usada para dividir — no mide el impacto real en la predicción. SHAP tiene garantías matemáticas (Eficiencia, Simetría, Nulidad) y funciona igual para cualquier modelo, lo que permite comparar explicaciones entre modelos.<br><br>Referencia: Lundberg &amp; Lee (2017). <em>A Unified Approach to Interpreting Model Predictions</em>. NeurIPS 2017.</div>
+  </div>
+</div>
+
+<!-- 10 POR QUÉ EDA Y CLUSTERING -->
+<div id="s-edaclust" class="section">
+  <div class="section-title">¿Por qué son necesarios EDA y clustering antes de clasificar?</div>
+  <div class="section-sub">No son pasos decorativos — tienen justificación técnica concreta.</div>
+  <div class="card">
+    <div class="card-title">EDA — es imprescindible</div>
+    <div class="card-body">
+      <div class="step"><div class="step-num" style="background:var(--teal)">1</div><div class="step-body"><div class="step-title">Detectar problemas en los datos</div><div class="step-desc">Variables con distribuciones raras, outliers extremos, multicolinealidad. Si no los encontrás antes de modelar, el modelo los absorbe silenciosamente y los resultados son engañosos.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">2</div><div class="step-body"><div class="step-title">Validar el desbalance real</div><div class="step-desc">¿Es 60/40 en los tres años? ¿En todas las regiones? Si hay subgrupos muy desbalanceados, la estrategia de clase cambia.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">3</div><div class="step-body"><div class="step-title">Descartar features inútiles</div><div class="step-desc">Si YearsCode tiene distribución idéntica entre adoptantes y no adoptantes, no va a aportar nada al clasificador. Saberlo antes evita ruido en el modelo.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--teal)">4</div><div class="step-body"><div class="step-title">Confirmar hipótesis H1–H3</div><div class="step-desc">El EDA valida empíricamente si rol &gt; experiencia (H1), si org grande adopta más (H2), si el año es predictivo (H3). Estas hipótesis guían qué features priorizás en el modelo.</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Clustering — valioso pero no imprescindible (respuesta honesta al tribunal)</div>
+    <div class="card-body">Justificación técnica: si el dataset tiene sub-poblaciones muy distintas mezcladas, un clasificador entrenado sobre todos puede tener performance mediocre. K-Means descubre esa estructura y la expone como feature al modelo.<br><br>
+    <div class="analogy">Si el tribunal pregunta "¿es estrictamente necesario?": el EDA es imprescindible, el clustering enriquece el análisis y justifica el uso de aprendizaje no supervisado (requisito del trabajo), pero el clasificador funciona sin él.</div></div>
+  </div>
+  <div class="card card-accent">
+    <div class="card-title">El orden del pipeline no es arbitrario</div>
+    <div class="card-body">EDA → descubrís qué hay en los datos y qué features importan.<br>Clustering → descubrís estructura interna sin target.<br>Clasificación → usás todo lo aprendido para predecir.<br>SHAP → explicás por qué el modelo predice lo que predice.<br><br>Cada paso informa al siguiente. Saltarse el EDA sería construir sin revisar el terreno.</div>
+  </div>
+</div>
+
+<!-- 11 SUPERVISADO VS NO SUPERVISADO -->
+<div id="s-supvsunsup" class="section">
+  <div class="section-title">Aprendizaje supervisado vs. no supervisado</div>
+  <div class="section-sub">La distinción central es una sola: si tenés variable target (etiqueta) o no.</div>
+  <div class="analogy">Supervisado = aprender con libro de respuestas. No supervisado = aprender sin él.</div>
+  <div class="vs" style="margin-top:1rem">
+    <div class="card">
+      <div class="card-title">Supervisado</div>
+      <div class="card-body">Aprendés de ejemplos etiquetados. El "supervisor" le dice al modelo cuándo se equivoca durante el entrenamiento.<br><br><strong>En este trabajo:</strong> 203.000 filas con target=0/1 conocido. El modelo aprende qué combinación de features predice cada valor.<br><br><span class="tag tag-green">Ejemplos</span> clasificación, regresión</div>
+    </div>
+    <div class="vs-mid">vs</div>
+    <div class="card">
+      <div class="card-title">No supervisado</div>
+      <div class="card-body">No hay etiquetas. El algoritmo solo ve features y encuentra estructura por sí solo. No hay respuesta correcta — hay patrones.<br><br><strong>En este trabajo:</strong> K-Means agrupa 203.000 devs por similitud sin saber nada del target. Vos después nombrás los grupos.<br><br><span class="tag tag-purple">Ejemplos</span> clustering, reducción de dimensionalidad</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Cómo se complementan en el pipeline</div>
+    <div class="card-body">K-Means (no supervisado) descubre la estructura del dataset sin mirar el target. El clasificador (supervisado) usa esa estructura como feature adicional. No son competidores — son etapas consecutivas del mismo pipeline.</div>
+  </div>
+</div>
+
+<!-- 12 XGBOOST VS RF -->
+<div id="s-xgboost" class="section">
+  <div class="section-title">XGBoost vs Random Forest — y SHAP en ambos</div>
+  <div class="section-sub">Por qué RF es el modelo principal aunque XGBoost sea el estado del arte. Y sí, SHAP funciona igual en ambos.</div>
+  <div class="card">
+    <div class="card-title">¿Por qué RF como modelo principal y no XGBoost?</div>
+    <div class="card-body">
+      <div class="step"><div class="step-num" style="background:var(--amber)">1</div><div class="step-body"><div class="step-title">Robusto sin tuning</div><div class="step-desc">RF con parámetros default da buenos resultados. XGBoost mal configurado puede rendir peor que un RF simple.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--amber)">2</div><div class="step-body"><div class="step-title">Más fácil de explicar</div><div class="step-desc">RF = árboles en paralelo que votan. XGBoost = árboles secuenciales que se corrigen. El primero es más intuitivo en una defensa.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--amber)">3</div><div class="step-body"><div class="step-title">Resultados estables</div><div class="step-desc">Menos sensible a pequeños cambios en datos. Mayor reproducibilidad.</div></div></div>
+      <div class="analogy">Si XGBoost da mejor ROC-AUC en la Entrega 2, se usa como modelo principal y se justifican los hiperparámetros. Lo importante es poder explicarlos al tribunal.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Diferencia técnica: bagging vs boosting</div>
+    <div class="card-body"><strong>Random Forest (bagging):</strong> árboles en paralelo sobre subsets aleatorios. Independientes entre sí. Predicción = voto mayoritario.<br><br><strong>XGBoost (boosting):</strong> árboles secuenciales. Cada árbol se especializa en los errores del anterior. Más preciso pero más lento y sensible al tuning.</div>
+  </div>
+  <div class="card card-ok">
+    <div class="card-title">SHAP funciona igual en XGBoost — código idéntico</div>
+    <div class="card-body"><code>shap.TreeExplainer</code> funciona con RF, XGBoost y LightGBM sin cambiar nada — solo cambia el modelo. Esto permite comparar explicaciones entre modelos: si RF y XGBoost coinciden en que DevType es la feature más importante, la conclusión es mucho más robusta.
+    <div class="code"><span class="cm"># RF</span>
+explainer = shap.<span class="fn">TreeExplainer</span>(rf_model)
+<span class="cm"># XGBoost — exactamente igual</span>
+explainer = shap.<span class="fn">TreeExplainer</span>(xgb_model)</div></div>
+  </div>
+</div>
+
+<!-- 13 ESTADO DEL ARTE -->
+<div id="s-estadoarte" class="section">
+  <div class="section-title">Estado del arte</div>
+  <div class="section-sub">Estudios similares, dimensiones de originalidad y referencias para la Entrega 3.</div>
+
+  <div class="card">
+    <div class="card-title">Estudios directamente relacionados <span class="tag tag-red">Muy cercanos</span></div>
+    <div class="card-body">
+      <div class="ref-row"><div class="ref-dot" style="background:var(--red)"></div><div class="ref-body"><strong>Ziegler et al. (2022/2024)</strong> — Measuring GitHub Copilot's Impact on Productivity. ACM, 67(3).<br>Mide impacto post-adopción con telemetría real. Juniors ganan más que seniors. Acceptance rate predice productividad percibida.<span class="ref-tag">Diferencia: miden impacto post-adopción · este trabajo predice quién va a adoptar</span></div></div>
+      <div class="ref-row"><div class="ref-dot" style="background:var(--red)"></div><div class="ref-body"><strong>Peng et al. (2023)</strong> — The Impact of AI on Developer Productivity. MIT/NBER. arXiv:2302.06590.<br>Experimento controlado con 95 devs: grupo con Copilot completó tareas 56% más rápido.<span class="ref-tag">Diferencia: experimento controlado de corto plazo · no predice perfil de adoptante sostenido</span></div></div>
+      <div class="ref-row"><div class="ref-dot" style="background:var(--red)"></div><div class="ref-body"><strong>Demirer, Li &amp; Raymond (2024/2025)</strong> — The Effects of Generative AI on High-Skilled Work. MIT/NBER.<br>Experimentos en Microsoft y Accenture: incluso con acceso garantizado, adopción plateó entre 60–75%.<span class="ref-tag">Diferencia: datos privados corporativos · este trabajo usa dataset público masivo con 203k respuestas</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Marco teórico y estudios relacionados <span class="tag tag-amber">Contexto</span></div>
+    <div class="card-body">
+      <div class="ref-row"><div class="ref-dot" style="background:var(--amber)"></div><div class="ref-body"><strong>Davis, F.D. (1989)</strong> — Perceived Usefulness, Perceived Ease of Use, and User Acceptance of IT. MIS Quarterly, 13(3).<br>Technology Acceptance Model (TAM): base teórica del criterio de construcción del target (uso activo + actitud positiva = adoptante sostenido).<span class="ref-tag">Fundamento teórico directo del trabajo</span></div></div>
+      <div class="ref-row"><div class="ref-dot" style="background:var(--amber)"></div><div class="ref-body"><strong>Venkatesh (2022)</strong> — Adoption and use of AI tools: a research agenda grounded in UTAUT. Annals of Operations Research, 308.<br>Evolución del TAM para herramientas de IA.<span class="ref-tag">Marco teórico complementario · sin modelo ML predictivo</span></div></div>
+      <div class="ref-row"><div class="ref-dot" style="background:var(--amber)"></div><div class="ref-body"><strong>Cui et al. (2024)</strong> — Field experiment en Microsoft, Accenture, Fortune 100.<br>26% más tareas completadas; mayor ganancia en devs menos experimentados.<span class="ref-tag">Datos privados corporativos · no usa encuestas públicas</span></div></div>
+      <div class="ref-row"><div class="ref-dot" style="background:var(--amber)"></div><div class="ref-body"><strong>Stray et al. (2025)</strong> — Generative AI and Developer Workflows. HICSS 2025.<br>Confianza y verificación como barreras de uso continuo. Developers invierten tiempo extra verificando output.<span class="ref-tag">Cualitativo · no predictivo · respalda la paradoja uso/confianza 2025</span></div></div>
+      <div class="ref-row"><div class="ref-dot" style="background:var(--amber)"></div><div class="ref-body"><strong>Vaithilingam, Zhang &amp; Glassman (2022)</strong> — Expectation vs. Experience. CHI 2022.<br>Evaluación de usabilidad de herramientas de generación de código: expectativas vs. experiencia real.<span class="ref-tag">Usabilidad de herramientas de codificación con IA</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Dimensiones de originalidad de este trabajo</div>
+    <div class="card-body">
+      <div class="novelty-grid header"><div>Dimensión</div><div>Este trabajo</div><div>Literatura existente</div><div>Novedad</div></div>
+      <div class="novelty-grid">
+        <div class="novelty-row">
+          <div>Dataset público masivo</div><div>SO Survey 2023–2025 · 203k · ODbL</div><div>Telemetría privada, experimentos controlados</div><div><span class="badge-orig">Alta</span></div>
+        </div>
+        <div class="novelty-row">
+          <div>Dimensión temporal</div><div>3 ediciones · evolución 37%→44%→39%</div><div>Estudios de corte único</div><div><span class="badge-orig">Alta</span></div>
+        </div>
+        <div class="novelty-row">
+          <div>Enfoque predictivo ML</div><div>Clasificación supervisada para predecir adoptante</div><div>Descripción, regresión simple, experimentos</div><div><span class="badge-orig">Alta</span></div>
+        </div>
+        <div class="novelty-row">
+          <div>Explicabilidad SHAP</div><div>SHAP values → lenguaje de negocio</div><div>Mayoría sin interpretabilidad formal</div><div><span class="badge-orig">Alta</span></div>
+        </div>
+        <div class="novelty-row">
+          <div>Clustering + clasificación</div><div>K-Means antes de clasificar</div><div>Clasificación directa o solo descriptivo</div><div><span class="badge-mid">Media-Alta</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Los 3 puntos de originalidad para la defensa</div>
+    <div class="card-body">
+      1. No existe ningún paper que use el SO Developer Survey con clasificación supervisada + SHAP para predecir adopción sostenida de IA.<br><br>
+      2. Los estudios existentes son descriptivos o experimentales. Ninguno combina las ediciones 2023–2025 con enfoque predictivo.<br><br>
+      3. La paradoja uso/confianza (80% usa IA / 29% confía en 2025) es un fenómeno nuevo, aún no modelado con ML.
+    </div>
+  </div>
+</div>
+
+<!-- 14 TAM Y VARIABLE TARGET -->
+<div id="s-tam" class="section">
+  <div class="section-title">TAM — Technology Acceptance Model</div>
+  <div class="section-sub">El marco teórico que justifica la definición del target. Entenderlo bien es clave para defender la decisión metodológica central del trabajo.</div>
+
+  <div class="card">
+    <div class="card-title">Origen y idea central</div>
+    <div class="card-body">
+      Propuesto por Fred Davis en 1989 en su tesis doctoral en el MIT, el TAM es el modelo más citado en la literatura de sistemas de información para explicar por qué las personas adoptan o rechazan una tecnología en contextos organizacionales.<br><br>
+      <div class="analogy">Idea central: las personas adoptan una tecnología cuando perciben que les va a ser útil (Perceived Usefulness) y que no van a tener que esforzarse demasiado para usarla (Perceived Ease of Use). Esas dos percepciones generan una actitud positiva, que predice la intención de uso, que a su vez predice el uso real sostenido.</div>
+      Referencia: Davis, F.D. (1989). <em>Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information Technology</em>. MIS Quarterly, 13(3), 319–340.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Los 5 componentes del TAM y su proxy en el dataset</div>
+    <div class="card-body">
+      <table class="matrix" style="margin-top:0">
+        <tr>
+          <td class="cell-header" style="width:160px">Componente</td>
+          <td class="cell-header">Definición</td>
+          <td class="cell-header">Proxy en el SO Survey</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;color:var(--accent);font-weight:500">Perceived Usefulness (PU)</td>
+          <td style="padding:8px 10px;color:var(--muted)">Grado en que el usuario cree que la tecnología mejora su desempeño laboral.</td>
+          <td style="padding:8px 10px;color:var(--muted)"><code>AIBen</code> (beneficios esperados), <code>AIAcc</code> (confianza en precisión)</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;color:var(--accent);font-weight:500">Perceived Ease of Use (PEOU)</td>
+          <td style="padding:8px 10px;color:var(--muted)">Grado en que el usuario cree que no requiere esfuerzo usar la tecnología.</td>
+          <td style="padding:8px 10px;color:var(--muted)">No capturado directamente — parcialmente en <code>AIAcc</code></td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;color:var(--accent2);font-weight:500">Attitude (A)</td>
+          <td style="padding:8px 10px;color:var(--muted)">Evaluación afectiva positiva o negativa del uso de la tecnología.</td>
+          <td style="padding:8px 10px;color:var(--muted)"><code>AISent</code> — Favorable / Unfavorable / Indifferent</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;color:var(--amber);font-weight:500">Behavioral Intention (BI)</td>
+          <td style="padding:8px 10px;color:var(--muted)">Intención de usar la tecnología en el futuro.</td>
+          <td style="padding:8px 10px;color:var(--muted)">Combinación <code>AISent</code> favorable + <code>AISelect = Yes</code></td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;color:var(--green);font-weight:500">Actual Use (AU)</td>
+          <td style="padding:8px 10px;color:var(--muted)">Uso real y sostenido de la tecnología en el trabajo.</td>
+          <td style="padding:8px 10px;color:var(--muted)"><code>AISelect = "Yes"</code> (uso actual declarado)</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Por qué el TAM justifica el target de este trabajo — el argumento completo</div>
+    <div class="card-body">
+      El target binario <code>(AISelect = "Yes") AND (AISent = Favorable/Very Favorable)</code> captura la intersección entre <strong>Actual Use</strong> y <strong>Attitude</strong> del TAM. Esto es más robusto que usar solo el uso declarado, por tres razones:<br><br>
+
+      <div class="step"><div class="step-num" style="background:var(--accent2)">1</div><div class="step-body"><div class="step-title">Uso sin actitud = riesgo de abandono</div><div class="step-desc">Alguien que usa IA con actitud negativa o indiferente (usa porque la empresa lo impone) está en riesgo de abandonar. No representa adopción sostenida — es adopción forzada. El TAM predice que sin actitud positiva, el uso no persiste.</div></div></div>
+
+      <div class="step"><div class="step-num" style="background:var(--accent2)">2</div><div class="step-body"><div class="step-title">Actitud sin uso = adoptante potencial, no actual</div><div class="step-desc">Alguien con actitud favorable que no usa todavía puede estar limitado por su empresa o rol. Es un adoptante potencial valioso, pero no cumple el criterio de adopción sostenida que busca medir este trabajo.</div></div></div>
+
+      <div class="step"><div class="step-num" style="background:var(--accent2)">3</div><div class="step-body"><div class="step-title">La intersección captura la conducta motivada</div><div class="step-desc">Uso + actitud positiva = el dev tiene tanto la conducta observable como la predisposición motivacional para sostenerla. Es exactamente lo que el TAM llama adopción genuina: uso que persiste porque hay una actitud que lo sostiene.</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">La evolución al UTAUT — contexto para el tribunal</div>
+    <div class="card-body">
+      En 2003, Venkatesh et al. extendieron el TAM en el <strong>UTAUT</strong> (Unified Theory of Acceptance and Use of Technology), incorporando factores sociales y organizacionales: influencia social (¿el entorno espera que uses la tecnología?), condiciones facilitadoras (¿tu empresa lo soporta?), y moderadores como género y experiencia.<br><br>
+      En 2022, Venkatesh aplicó UTAUT específicamente a herramientas de IA, señalando que la confianza en la precisión del output es un determinante crítico — lo que se ve reflejado en la paradoja 2025 del SO Survey (80% uso / 29% confianza).<br><br>
+      <span class="tag tag-blue">Para el tribunal</span> si preguntan por UTAUT: podés decir que el trabajo usa TAM como marco base por su parsimonia y disponibilidad de proxies directos en el dataset. UTAUT requeriría variables sobre influencia social y condiciones facilitadoras que el survey captura solo parcialmente (OrgSize como proxy de condiciones facilitadoras).
+    </div>
+  </div>
+
+  <div class="card card-warn">
+    <div class="card-title">Limitaciones conocidas del TAM — y cómo responderlas</div>
+    <div class="card-body">
+      <div class="step"><div class="step-num" style="background:var(--amber)">!</div><div class="step-body"><div class="step-title">"TAM es de 1989 — ¿no está desactualizado?"</div><div class="step-desc">El TAM original fue validado con tecnologías de oficina. Sin embargo sigue siendo el modelo más citado en IS research precisamente por su robustez transcultural y temporal. UTAUT (2003) y su extensión a IA (Venkatesh 2022) lo actualizan sin reemplazarlo. La pregunta relevante es si sus constructos aplican — y sí aplican: Perceived Usefulness y Attitude son perfectamente medibles con AIBen/AIAcc y AISent.</div></div></div>
+
+      <div class="step"><div class="step-num" style="background:var(--amber)">!</div><div class="step-body"><div class="step-title">"AISent mide actitud pero no intención futura"</div><div class="step-desc">Correcto — el survey no pregunta explícitamente "¿vas a seguir usando IA en 6 meses?". Sin embargo en el TAM, actitud actual es el predictor más fuerte de intención de uso futura. Es una limitación conocida del trabajo, documentada en la sección de limitaciones de la Entrega 1.</div></div></div>
+
+      <div class="step"><div class="step-num" style="background:var(--amber)">!</div><div class="step-body"><div class="step-title">"Los datos son self-reported — pueden no reflejar comportamiento real"</div><div class="step-desc">También correcto y documentado. La mitigación es que la combinación uso + actitud tiene menos riesgo que solo uso declarado: es más difícil que alguien reporte simultáneamente usar IA y tener actitud muy favorable si ninguna de las dos cosas es verdad.</div></div></div>
+    </div>
+  </div>
+
+  <div class="card card-ok">
+    <div class="card-title">El argumento en una oración — para la defensa</div>
+    <div class="card-body">
+      "El target binario de este trabajo combina uso activo (<code>AISelect = Yes</code>) con actitud positiva (<code>AISent = Favorable/Very favorable</code>) porque el Technology Acceptance Model (Davis, 1989) establece que la adopción tecnológica sostenida requiere ambos componentes — el uso sin actitud positiva es adopción forzada con alto riesgo de abandono, y la actitud sin uso es adopción potencial pero no actual."
+    </div>
+  </div>
+</div>
+
+<!-- 15 PRESENTACIÓN -->
+<div id="s-presentacion" class="section">
+  <div class="section-title">Para la presentación del 26 de marzo</div>
+  <div class="section-sub">La Entrega 1 está resuelta. Qué podés esperar y cómo responder las preguntas típicas.</div>
+  <div class="card card-ok">
+    <div class="card-title">Entrega 1 — estado actual</div>
+    <div class="card-body">
+      <span class="tag tag-green">OK</span> Pregunta de investigación formal<br>
+      <span class="tag tag-green">OK</span> Dataset: SO Survey 2023+2024+2025 (~203k)<br>
+      <span class="tag tag-green">OK</span> Variable target (AISelect + AISent / TAM)<br>
+      <span class="tag tag-green">OK</span> 3 hipótesis (H1: rol &gt; experiencia · H2: org grande · H3: año predictivo)<br>
+      <span class="tag tag-green">OK</span> Limitaciones documentadas<br>
+      <span class="tag tag-green">OK</span> Pipeline metodológico previsto
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Preguntas frecuentes del tribunal — con respuestas</div>
+    <div class="card-body">
+      <div class="step"><div class="step-num" style="background:var(--green)">?</div><div class="step-body"><div class="step-title">"¿Por qué AISelect + AISent y no solo AISelect?"</div><div class="step-desc">AISelect sola captura uso puntual. La combinación con actitud positiva (TAM, Davis 1989) diferencia al adoptante que continúa del que prueba y abandona.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">?</div><div class="step-body"><div class="step-title">"¿El desbalance 60/40 no es un problema?"</div><div class="step-desc">Es moderado. Se usa <code>class_weight='balanced'</code> y se reporta F1-macro además de ROC-AUC. No requiere SMOTE.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">?</div><div class="step-body"><div class="step-title">"¿Por qué incluir 2025 si tiene 31% de NaN en AISelect?"</div><div class="step-desc">Se reportan dos métricas: dataset completo y respondentes válidos. El año igual aporta para capturar la desaceleración post-boom.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">?</div><div class="step-body"><div class="step-title">"¿Qué técnicas de la maestría aplicás?"</div><div class="step-desc">EDA + visualización, preprocesamiento y feature engineering, K-Means (no supervisado), clasificación supervisada (RF + XGBoost), SHAP. Opcional: NLP sobre respuestas abiertas.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--green)">?</div><div class="step-body"><div class="step-title">"¿Qué diferencia tu trabajo de Ziegler o Peng?"</div><div class="step-desc">Ellos miden el impacto post-adopción con datos privados. Este trabajo predice quién va a adoptar, usando dataset público, con ML supervisado + SHAP — combinación sin equivalente en la literatura.</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Próximos pasos post-26/3 — Entrega 2</div>
+    <div class="card-body">
+      <code>01_carga_union.ipynb</code> → unificar los 3 CSVs con mapeo de columnas<br>
+      <code>02_preprocesamiento.ipynb</code> → encoding + construcción del target<br>
+      <code>03_eda.ipynb</code> → visualizaciones + validación de hipótesis<br>
+      <code>04_clustering.ipynb</code> → K-Means + Silhouette + descripción de clusters<br>
+      <code>05_clasificacion.ipynb</code> → modelos + validación cruzada estratificada
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  <span>Taller de Tesis I · Maestría en Data Mining · FCEyN UBA · Grupo G2</span>
+  <span>v2 · Marzo 2026</span>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

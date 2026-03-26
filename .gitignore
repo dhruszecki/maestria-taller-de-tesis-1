@@ -16,5 +16,4 @@ _book
 *.pdf
 /data
 /outputs
-CLAUDE.md
 **/.DS_Store
